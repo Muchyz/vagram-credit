@@ -142,13 +142,18 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
 
   return (
     <>
+      {/* Top Bar */}
       <div style={{ position:"fixed",top:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,zIndex:300,background:scrolled?"rgba(4,22,10,0.96)":"rgba(0,0,0,0.28)",backdropFilter:"blur(18px)",WebkitBackdropFilter:"blur(18px)",borderBottom:scrolled?"1px solid rgba(255,255,255,0.07)":"none",boxShadow:scrolled?"0 4px 28px rgba(0,0,0,0.4)":"none",transition:"all .28s" }}>
         <div style={{ display:"flex",alignItems:"center",height:56,padding:"0 14px",gap:10 }}>
+
+          {/* Hamburger */}
           <button onClick={()=>setOpen(true)} style={{ width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.18)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,padding:0,flexShrink:0 }}>
             <span style={{ display:"block",width:16,height:2,background:"#fff",borderRadius:2 }} />
             <span style={{ display:"block",width:12,height:2,background:"rgba(255,255,255,0.6)",borderRadius:2 }} />
             <span style={{ display:"block",width:16,height:2,background:"#fff",borderRadius:2 }} />
           </button>
+
+          {/* Logo + Name */}
           <div onClick={onHome} style={{ display:"flex",alignItems:"center",gap:10,flex:1,cursor:"pointer" }}>
             <div style={{ width:34,height:34,borderRadius:10,background:"linear-gradient(135deg,#16a34a,#15803d)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,boxShadow:"0 2px 10px rgba(21,128,61,0.5)",flexShrink:0 }}>🏦</div>
             <div>
@@ -156,17 +161,23 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
               <div style={{ fontSize:8,color:"rgba(255,255,255,0.45)",fontWeight:700,letterSpacing:".14em",textTransform:"uppercase" }}>Credit Limited</div>
             </div>
           </div>
+
+          {/* CTA Buttons */}
           <button onClick={onRegister} style={{ background:"rgba(255,255,255,0.12)",color:"#fff",border:"1px solid rgba(255,255,255,0.22)",borderRadius:8,padding:"7px 13px",fontSize:12,fontWeight:700,cursor:"pointer",lineHeight:1,whiteSpace:"nowrap",flexShrink:0 }}>Join</button>
           <button onClick={onLoan} style={{ background:"#15803d",color:"#fff",border:"none",borderRadius:8,padding:"7px 13px",fontSize:12,fontWeight:700,cursor:"pointer",lineHeight:1,whiteSpace:"nowrap",flexShrink:0,boxShadow:"0 2px 10px rgba(21,128,61,0.55)" }}>Loan</button>
         </div>
       </div>
 
+      {/* Overlay */}
       {open && (
         <div className="overlay" onClick={close} style={{ position:"fixed",inset:0,background:"rgba(0,0,0,0.65)",zIndex:400,backdropFilter:"blur(4px)",WebkitBackdropFilter:"blur(4px)" }} />
       )}
 
+      {/* Side Drawer */}
       {open && (
         <div className="drawer" style={{ position:"fixed",top:0,left:0,width:300,height:"100vh",background:"linear-gradient(180deg,#04160a 0%,#071a0e 60%,#030f07 100%)",zIndex:500,display:"flex",flexDirection:"column",overflowY:"auto",boxShadow:"4px 0 40px rgba(0,0,0,0.6)" }}>
+
+          {/* Drawer Header */}
           <div style={{ padding:"20px 20px 16px",borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16 }}>
               <div style={{ display:"flex",alignItems:"center",gap:10 }}>
@@ -176,13 +187,18 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
                   <div style={{ fontSize:9,color:"rgba(255,255,255,0.4)",fontWeight:700,letterSpacing:".12em",textTransform:"uppercase" }}>Credit Limited</div>
                 </div>
               </div>
+              {/* Close Button */}
               <button onClick={close} style={{ width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.12)",color:"rgba(255,255,255,0.6)",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1 }}>✕</button>
             </div>
+
+            {/* Live badge */}
             <div style={{ display:"inline-flex",alignItems:"center",gap:7,background:"rgba(21,128,61,0.2)",border:"1px solid rgba(74,222,128,0.25)",borderRadius:30,padding:"5px 12px" }}>
               <span style={{ width:7,height:7,borderRadius:"50%",background:"#4ade80",display:"block",animation:"blink 1.8s ease infinite" }} />
               <span style={{ fontSize:10,fontWeight:800,color:"rgba(255,255,255,0.8)",letterSpacing:".08em",textTransform:"uppercase" }}>Trusted Financial Partner</span>
             </div>
           </div>
+
+          {/* Menu Items */}
           <div style={{ padding:"12px 12px",flex:1 }}>
             <div style={{ fontSize:9,fontWeight:800,color:"rgba(255,255,255,0.25)",letterSpacing:".12em",textTransform:"uppercase",padding:"4px 8px",marginBottom:6 }}>Navigation</div>
             {menuItems.map(({ icon,label,sub,fn,color }) => (
@@ -196,6 +212,8 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
               </div>
             ))}
           </div>
+
+          {/* Drawer Footer */}
           <div style={{ padding:"16px 20px 32px",borderTop:"1px solid rgba(255,255,255,0.07)" }}>
             <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
               <div style={{ display:"flex",alignItems:"center",gap:10 }}>
@@ -287,9 +305,9 @@ function ContactFooter({ onRegister, onGroupReg, onLoan }) {
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(21,128,61,0.25)",border:"1px solid rgba(74,222,128,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>📞</div>
             <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Phone</div><div style={{ fontSize:16,fontWeight:800,color:"#4ade80" }}>0721 471 417</div></div>
           </a>
-          <a href="mailto:info@vagramcompany.co.ke" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
+          <a href="mailto:vagramcompany@gmail.com" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(29,78,216,0.25)",border:"1px solid rgba(147,197,253,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>✉️</div>
-            <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Email</div><div style={{ fontSize:13,fontWeight:700,color:"rgba(255,255,255,0.75)" }}>info@vagramcompany.co.ke</div></div>
+            <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Email</div><div style={{ fontSize:13,fontWeight:700,color:"rgba(255,255,255,0.75)" }}>vagramcompany@gmail.com</div></div>
           </a>
           <div style={{ display:"flex",alignItems:"center",gap:14 }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(180,83,9,0.25)",border:"1px solid rgba(252,211,77,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>📍</div>
@@ -443,9 +461,7 @@ export default function App() {
   const gSelRef=useRef(); const gFrtRef=useRef(); const gBckRef=useRef(); const gLetRef=useRef();
   const lSelRef=useRef(); const lFrtRef=useRef(); const lBckRef=useRef();
 
-  // ── CHANGE 1: Photo compression (replaces old FileReader version) ──
-  const loadPhoto=(file,setter)=>{ if(!file) return; const img=new Image(); const url=URL.createObjectURL(file); img.onload=()=>{ const canvas=document.createElement("canvas"); const max=800; let w=img.width,h=img.height; if(w>max){h=h*max/w;w=max;} canvas.width=w;canvas.height=h; canvas.getContext("2d").drawImage(img,0,0,w,h); setter(canvas.toDataURL("image/jpeg",0.6)); URL.revokeObjectURL(url); }; img.src=url; };
-
+  const loadPhoto=(file,setter)=>{ if(!file) return; const r=new FileReader(); r.onload=e=>setter(e.target.result); r.readAsDataURL(file); };
   const togglePkg=id=>{ if(id==="welfare") return; setRPkgs(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]); };
   const totalFees=()=>(700+(rPkgs.includes("welfare")?1000:0)).toLocaleString();
   const updateMember=(i,f,v)=>setGMembers(m=>m.map((x,idx)=>idx===i?{...x,[f]:v}:x));
