@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 /* ═══════════════ CONFIG ═══════════════ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw_yJkPltR9hoUKNZuIYLfLQfLtq3uo-e7LOkbGBS1qIjqHhVcqqYYUjkmOrdMN-SUUvg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2t0aNbiLuHa77HIAsuQgV7oPpbl-C1uBg891ev-gQqp8sEYyL2KFuzxGBz8CxUeOq/exec";
 const WHATSAPP_NUMBER = "254721471417";
 
 /* ═══════════════ DATA ═══════════════ */
