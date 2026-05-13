@@ -107,23 +107,41 @@ async function submitToGoogle(payload) {
   return res.json();
 }
 
+/* ═══════════════ IMAGE COMPRESSION ═══════════════
+   Resizes to max 800px and compresses to JPEG 70%
+   Reduces each photo from ~5MB to ~80-150KB          */
+function loadPhoto(file, setter) {
+  if (!file) return;
+  const img = new Image();
+  const url = URL.createObjectURL(file);
+  img.onload = () => {
+    const MAX = 800;
+    const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+    const canvas = document.createElement("canvas");
+    canvas.width  = Math.round(img.width  * scale);
+    canvas.height = Math.round(img.height * scale);
+    canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+    setter(canvas.toDataURL("image/jpeg", 0.7));
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => {
+    // fallback: read as-is if canvas fails
+    const r = new FileReader();
+    r.onload = e => setter(e.target.result);
+    r.readAsDataURL(file);
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
 /* ═══════════════ WHATSAPP SVG ICON ═══════════════ */
 function WhatsAppIcon({ size = 32 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="24" cy="24" r="24" fill="#25D366"/>
-      <path
-        d="M34.5 13.4C32.1 10.9 28.8 9.5 25.3 9.5C18.1 9.5 12.3 15.3 12.3 22.5C12.3 24.9 12.9 27.2 14.1 29.2L12.1 36.5L19.6 34.5C21.5 35.6 23.4 36.2 25.3 36.2C32.5 36.2 38.3 30.4 38.3 23.2C38.4 19.7 37 16.4 34.5 13.4Z"
-        fill="white"
-      />
-      <path
-        d="M25.3 34.1C23.6 34.1 21.9 33.6 20.4 32.7L20.1 32.5L15.7 33.7L16.9 29.4L16.7 29.1C15.7 27.5 15.1 25.6 15.1 23.7C15.1 17.6 20.1 12.6 26.2 12.6C29.2 12.6 32 13.8 34.1 15.9C36.2 18 37.4 20.8 37.4 23.8C37.3 29.6 32.3 34.1 25.3 34.1Z"
-        fill="#25D366"
-      />
-      <path
-        d="M31.5 26.4C31.2 26.2 29.8 25.5 29.5 25.4C29.2 25.3 29 25.2 28.8 25.5C28.6 25.8 28.1 26.4 27.9 26.7C27.7 26.9 27.5 27 27.2 26.8C26.9 26.6 25.9 26.3 24.7 25.2C23.8 24.4 23.2 23.4 23 23.1C22.8 22.8 23 22.6 23.2 22.4C23.4 22.2 23.6 22 23.7 21.8C23.8 21.6 23.9 21.4 23.8 21.2C23.7 21 23.2 19.6 22.9 19C22.7 18.4 22.4 18.5 22.2 18.5C22 18.5 21.8 18.5 21.6 18.5C21.4 18.5 21 18.6 20.7 18.9C20.4 19.2 19.7 19.9 19.7 21.3C19.7 22.7 20.7 24 20.9 24.3C21.1 24.6 23.2 27.8 26.4 28.9C27.2 29.2 27.8 29.4 28.3 29.5C29.1 29.7 29.8 29.7 30.4 29.6C31.1 29.5 32.4 28.9 32.7 28.2C33 27.5 33 26.9 32.9 26.8C32.8 26.7 32.1 26.5 31.5 26.4Z"
-        fill="white"
-      />
+      <path d="M34.5 13.4C32.1 10.9 28.8 9.5 25.3 9.5C18.1 9.5 12.3 15.3 12.3 22.5C12.3 24.9 12.9 27.2 14.1 29.2L12.1 36.5L19.6 34.5C21.5 35.6 23.4 36.2 25.3 36.2C32.5 36.2 38.3 30.4 38.3 23.2C38.4 19.7 37 16.4 34.5 13.4Z" fill="white"/>
+      <path d="M25.3 34.1C23.6 34.1 21.9 33.6 20.4 32.7L20.1 32.5L15.7 33.7L16.9 29.4L16.7 29.1C15.7 27.5 15.1 25.6 15.1 23.7C15.1 17.6 20.1 12.6 26.2 12.6C29.2 12.6 32 13.8 34.1 15.9C36.2 18 37.4 20.8 37.4 23.8C37.3 29.6 32.3 34.1 25.3 34.1Z" fill="#25D366"/>
+      <path d="M31.5 26.4C31.2 26.2 29.8 25.5 29.5 25.4C29.2 25.3 29 25.2 28.8 25.5C28.6 25.8 28.1 26.4 27.9 26.7C27.7 26.9 27.5 27 27.2 26.8C26.9 26.6 25.9 26.3 24.7 25.2C23.8 24.4 23.2 23.4 23 23.1C22.8 22.8 23 22.6 23.2 22.4C23.4 22.2 23.6 22 23.7 21.8C23.8 21.6 23.9 21.4 23.8 21.2C23.7 21 23.2 19.6 22.9 19C22.7 18.4 22.4 18.5 22.2 18.5C22 18.5 21.8 18.5 21.6 18.5C21.4 18.5 21 18.6 20.7 18.9C20.4 19.2 19.7 19.9 19.7 21.3C19.7 22.7 20.7 24 20.9 24.3C21.1 24.6 23.2 27.8 26.4 28.9C27.2 29.2 27.8 29.4 28.3 29.5C29.1 29.7 29.8 29.7 30.4 29.6C31.1 29.5 32.4 28.9 32.7 28.2C33 27.5 33 26.9 32.9 26.8C32.8 26.7 32.1 26.5 31.5 26.4Z" fill="white"/>
     </svg>
   );
 }
@@ -323,8 +341,6 @@ function ContactFooter({ onRegister, onGroupReg, onLoan }) {
               <div style={{ fontSize:16,fontWeight:800,color:"#4ade80" }}>0721 471 417</div>
             </div>
           </a>
-
-          {/* WhatsApp row with real SVG icon */}
           <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(37,211,102,0.18)",border:"1px solid rgba(37,211,102,0.3)",display:"flex",alignItems:"center",justifyContent:"center" }}>
               <WhatsAppIcon size={26} />
@@ -334,10 +350,8 @@ function ContactFooter({ onRegister, onGroupReg, onLoan }) {
               <div style={{ fontSize:16,fontWeight:800,color:"#25D366" }}>0721 471 417</div>
             </div>
           </a>
-
           <a href="mailto:info@vagramcompany.co.ke" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(29,78,216,0.25)",border:"1px solid rgba(147,197,253,0.2)",display:"flex",alignItems:"center",justifyContent:"center" }}>
-              {/* Coloured Email SVG */}
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="2" y="4" width="20" height="16" rx="3" fill="#3b82f6" opacity="0.9"/>
                 <path d="M2 7l10 7 10-7" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
@@ -348,10 +362,8 @@ function ContactFooter({ onRegister, onGroupReg, onLoan }) {
               <div style={{ fontSize:13,fontWeight:700,color:"rgba(255,255,255,0.75)" }}>info@vagramcompany.co.ke</div>
             </div>
           </a>
-
           <div style={{ display:"flex",alignItems:"center",gap:14 }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(180,83,9,0.25)",border:"1px solid rgba(252,211,77,0.2)",display:"flex",alignItems:"center",justifyContent:"center" }}>
-              {/* Coloured Location SVG */}
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#f59e0b"/>
                 <circle cx="12" cy="9" r="2.5" fill="white"/>
@@ -510,7 +522,6 @@ export default function App() {
   const gSelRef=useRef(); const gFrtRef=useRef(); const gBckRef=useRef(); const gLetRef=useRef();
   const lSelRef=useRef(); const lFrtRef=useRef(); const lBckRef=useRef();
 
-  const loadPhoto=(file,setter)=>{ if(!file) return; const r=new FileReader(); r.onload=e=>setter(e.target.result); r.readAsDataURL(file); };
   const togglePkg=id=>{ if(id==="welfare") return; setRPkgs(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]); };
   const totalFees=()=>(700+(rPkgs.includes("welfare")?1000:0)).toLocaleString();
   const updateMember=(i,f,v)=>setGMembers(m=>m.map((x,idx)=>idx===i?{...x,[f]:v}:x));
