@@ -107,13 +107,45 @@ async function submitToGoogle(payload) {
   return res.json();
 }
 
+/* ═══════════════ WHATSAPP SVG ICON ═══════════════ */
+function WhatsAppIcon({ size = 32 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="24" r="24" fill="#25D366"/>
+      <path
+        d="M34.5 13.4C32.1 10.9 28.8 9.5 25.3 9.5C18.1 9.5 12.3 15.3 12.3 22.5C12.3 24.9 12.9 27.2 14.1 29.2L12.1 36.5L19.6 34.5C21.5 35.6 23.4 36.2 25.3 36.2C32.5 36.2 38.3 30.4 38.3 23.2C38.4 19.7 37 16.4 34.5 13.4Z"
+        fill="white"
+      />
+      <path
+        d="M25.3 34.1C23.6 34.1 21.9 33.6 20.4 32.7L20.1 32.5L15.7 33.7L16.9 29.4L16.7 29.1C15.7 27.5 15.1 25.6 15.1 23.7C15.1 17.6 20.1 12.6 26.2 12.6C29.2 12.6 32 13.8 34.1 15.9C36.2 18 37.4 20.8 37.4 23.8C37.3 29.6 32.3 34.1 25.3 34.1Z"
+        fill="#25D366"
+      />
+      <path
+        d="M31.5 26.4C31.2 26.2 29.8 25.5 29.5 25.4C29.2 25.3 29 25.2 28.8 25.5C28.6 25.8 28.1 26.4 27.9 26.7C27.7 26.9 27.5 27 27.2 26.8C26.9 26.6 25.9 26.3 24.7 25.2C23.8 24.4 23.2 23.4 23 23.1C22.8 22.8 23 22.6 23.2 22.4C23.4 22.2 23.6 22 23.7 21.8C23.8 21.6 23.9 21.4 23.8 21.2C23.7 21 23.2 19.6 22.9 19C22.7 18.4 22.4 18.5 22.2 18.5C22 18.5 21.8 18.5 21.6 18.5C21.4 18.5 21 18.6 20.7 18.9C20.4 19.2 19.7 19.9 19.7 21.3C19.7 22.7 20.7 24 20.9 24.3C21.1 24.6 23.2 27.8 26.4 28.9C27.2 29.2 27.8 29.4 28.3 29.5C29.1 29.7 29.8 29.7 30.4 29.6C31.1 29.5 32.4 28.9 32.7 28.2C33 27.5 33 26.9 32.9 26.8C32.8 26.7 32.1 26.5 31.5 26.4Z"
+        fill="white"
+      />
+    </svg>
+  );
+}
+
 /* ═══════════════ WHATSAPP BUTTON ═══════════════ */
 function WAButton() {
   return (
-    <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hello%20Vagram%20Credit%2C%20I%20need%20assistance.`}
-      target="_blank" rel="noopener noreferrer" className="wa-btn"
-      style={{ position:"fixed",bottom:24,right:16,zIndex:500,width:58,height:58,borderRadius:"50%",background:"#25d366",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,textDecoration:"none" }}>
-      💬
+    <a
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hello%20Vagram%20Credit%2C%20I%20need%20assistance.`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="wa-btn"
+      style={{
+        position:"fixed", bottom:24, right:16, zIndex:500,
+        width:60, height:60, borderRadius:"50%",
+        background:"#25D366",
+        display:"flex", alignItems:"center", justifyContent:"center",
+        textDecoration:"none",
+        boxShadow:"0 4px 20px rgba(37,211,102,0.5)"
+      }}
+    >
+      <WhatsAppIcon size={36} />
     </a>
   );
 }
@@ -145,15 +177,11 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
       {/* Top Bar */}
       <div style={{ position:"fixed",top:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,zIndex:300,background:scrolled?"rgba(4,22,10,0.96)":"rgba(0,0,0,0.28)",backdropFilter:"blur(18px)",WebkitBackdropFilter:"blur(18px)",borderBottom:scrolled?"1px solid rgba(255,255,255,0.07)":"none",boxShadow:scrolled?"0 4px 28px rgba(0,0,0,0.4)":"none",transition:"all .28s" }}>
         <div style={{ display:"flex",alignItems:"center",height:56,padding:"0 14px",gap:10 }}>
-
-          {/* Hamburger */}
           <button onClick={()=>setOpen(true)} style={{ width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.18)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,padding:0,flexShrink:0 }}>
             <span style={{ display:"block",width:16,height:2,background:"#fff",borderRadius:2 }} />
             <span style={{ display:"block",width:12,height:2,background:"rgba(255,255,255,0.6)",borderRadius:2 }} />
             <span style={{ display:"block",width:16,height:2,background:"#fff",borderRadius:2 }} />
           </button>
-
-          {/* Logo + Name */}
           <div onClick={onHome} style={{ display:"flex",alignItems:"center",gap:10,flex:1,cursor:"pointer" }}>
             <div style={{ width:34,height:34,borderRadius:10,background:"linear-gradient(135deg,#16a34a,#15803d)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,boxShadow:"0 2px 10px rgba(21,128,61,0.5)",flexShrink:0 }}>🏦</div>
             <div>
@@ -161,23 +189,17 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
               <div style={{ fontSize:8,color:"rgba(255,255,255,0.45)",fontWeight:700,letterSpacing:".14em",textTransform:"uppercase" }}>Credit Limited</div>
             </div>
           </div>
-
-          {/* CTA Buttons */}
           <button onClick={onRegister} style={{ background:"rgba(255,255,255,0.12)",color:"#fff",border:"1px solid rgba(255,255,255,0.22)",borderRadius:8,padding:"7px 13px",fontSize:12,fontWeight:700,cursor:"pointer",lineHeight:1,whiteSpace:"nowrap",flexShrink:0 }}>Join</button>
           <button onClick={onLoan} style={{ background:"#15803d",color:"#fff",border:"none",borderRadius:8,padding:"7px 13px",fontSize:12,fontWeight:700,cursor:"pointer",lineHeight:1,whiteSpace:"nowrap",flexShrink:0,boxShadow:"0 2px 10px rgba(21,128,61,0.55)" }}>Loan</button>
         </div>
       </div>
 
-      {/* Overlay */}
       {open && (
         <div className="overlay" onClick={close} style={{ position:"fixed",inset:0,background:"rgba(0,0,0,0.65)",zIndex:400,backdropFilter:"blur(4px)",WebkitBackdropFilter:"blur(4px)" }} />
       )}
 
-      {/* Side Drawer */}
       {open && (
         <div className="drawer" style={{ position:"fixed",top:0,left:0,width:300,height:"100vh",background:"linear-gradient(180deg,#04160a 0%,#071a0e 60%,#030f07 100%)",zIndex:500,display:"flex",flexDirection:"column",overflowY:"auto",boxShadow:"4px 0 40px rgba(0,0,0,0.6)" }}>
-
-          {/* Drawer Header */}
           <div style={{ padding:"20px 20px 16px",borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
             <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16 }}>
               <div style={{ display:"flex",alignItems:"center",gap:10 }}>
@@ -187,18 +209,13 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
                   <div style={{ fontSize:9,color:"rgba(255,255,255,0.4)",fontWeight:700,letterSpacing:".12em",textTransform:"uppercase" }}>Credit Limited</div>
                 </div>
               </div>
-              {/* Close Button */}
               <button onClick={close} style={{ width:34,height:34,borderRadius:9,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.12)",color:"rgba(255,255,255,0.6)",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1 }}>✕</button>
             </div>
-
-            {/* Live badge */}
             <div style={{ display:"inline-flex",alignItems:"center",gap:7,background:"rgba(21,128,61,0.2)",border:"1px solid rgba(74,222,128,0.25)",borderRadius:30,padding:"5px 12px" }}>
               <span style={{ width:7,height:7,borderRadius:"50%",background:"#4ade80",display:"block",animation:"blink 1.8s ease infinite" }} />
               <span style={{ fontSize:10,fontWeight:800,color:"rgba(255,255,255,0.8)",letterSpacing:".08em",textTransform:"uppercase" }}>Trusted Financial Partner</span>
             </div>
           </div>
-
-          {/* Menu Items */}
           <div style={{ padding:"12px 12px",flex:1 }}>
             <div style={{ fontSize:9,fontWeight:800,color:"rgba(255,255,255,0.25)",letterSpacing:".12em",textTransform:"uppercase",padding:"4px 8px",marginBottom:6 }}>Navigation</div>
             {menuItems.map(({ icon,label,sub,fn,color }) => (
@@ -208,12 +225,10 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
                   <div style={{ fontSize:14,fontWeight:800,color:"rgba(255,255,255,0.9)",lineHeight:1.2 }}>{label}</div>
                   <div style={{ fontSize:11,color:"rgba(255,255,255,0.38)",marginTop:2 }}>{sub}</div>
                 </div>
-                <span style={{ fontSize:16,color:color,fontWeight:900 }}>›</span>
+                <span style={{ fontSize:16,color,fontWeight:900 }}>›</span>
               </div>
             ))}
           </div>
-
-          {/* Drawer Footer */}
           <div style={{ padding:"16px 20px 32px",borderTop:"1px solid rgba(255,255,255,0.07)" }}>
             <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
               <div style={{ display:"flex",alignItems:"center",gap:10 }}>
@@ -303,15 +318,49 @@ function ContactFooter({ onRegister, onGroupReg, onLoan }) {
         <div style={{ display:"flex",flexDirection:"column",gap:14 }}>
           <a href="tel:0721471417" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
             <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(21,128,61,0.25)",border:"1px solid rgba(74,222,128,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>📞</div>
-            <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Phone</div><div style={{ fontSize:16,fontWeight:800,color:"#4ade80" }}>0721 471 417</div></div>
+            <div>
+              <div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Phone</div>
+              <div style={{ fontSize:16,fontWeight:800,color:"#4ade80" }}>0721 471 417</div>
+            </div>
           </a>
-          <a href="mailto:vagramcompany@gmail.com" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
-            <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(29,78,216,0.25)",border:"1px solid rgba(147,197,253,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>✉️</div>
-            <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Email</div><div style={{ fontSize:13,fontWeight:700,color:"rgba(255,255,255,0.75)" }}>vagramcompany@gmail.com</div></div>
+
+          {/* WhatsApp row with real SVG icon */}
+          <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
+            <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(37,211,102,0.18)",border:"1px solid rgba(37,211,102,0.3)",display:"flex",alignItems:"center",justifyContent:"center" }}>
+              <WhatsAppIcon size={26} />
+            </div>
+            <div>
+              <div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>WhatsApp</div>
+              <div style={{ fontSize:16,fontWeight:800,color:"#25D366" }}>0721 471 417</div>
+            </div>
           </a>
+
+          <a href="mailto:info@vagramcompany.co.ke" style={{ display:"flex",alignItems:"center",gap:14,textDecoration:"none" }}>
+            <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(29,78,216,0.25)",border:"1px solid rgba(147,197,253,0.2)",display:"flex",alignItems:"center",justifyContent:"center" }}>
+              {/* Coloured Email SVG */}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="4" width="20" height="16" rx="3" fill="#3b82f6" opacity="0.9"/>
+                <path d="M2 7l10 7 10-7" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Email</div>
+              <div style={{ fontSize:13,fontWeight:700,color:"rgba(255,255,255,0.75)" }}>info@vagramcompany.co.ke</div>
+            </div>
+          </a>
+
           <div style={{ display:"flex",alignItems:"center",gap:14 }}>
-            <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(180,83,9,0.25)",border:"1px solid rgba(252,211,77,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>📍</div>
-            <div><div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Location</div><div style={{ fontSize:14,fontWeight:800,color:"rgba(255,255,255,0.85)",lineHeight:1.4 }}>Biashara Plaza, 2nd Floor<br /><span style={{ fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.5)" }}>Naivasha</span></div></div>
+            <div style={{ width:42,height:42,borderRadius:12,flexShrink:0,background:"rgba(180,83,9,0.25)",border:"1px solid rgba(252,211,77,0.2)",display:"flex",alignItems:"center",justifyContent:"center" }}>
+              {/* Coloured Location SVG */}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#f59e0b"/>
+                <circle cx="12" cy="9" r="2.5" fill="white"/>
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontSize:10,color:"rgba(255,255,255,0.35)",fontWeight:700,textTransform:"uppercase",letterSpacing:".06em",marginBottom:2 }}>Location</div>
+              <div style={{ fontSize:14,fontWeight:800,color:"rgba(255,255,255,0.85)",lineHeight:1.4 }}>Biashara Plaza, 2nd Floor<br /><span style={{ fontSize:13,fontWeight:600,color:"rgba(255,255,255,0.5)" }}>Naivasha</span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -520,7 +569,9 @@ export default function App() {
           </div>
           <div style={{ fontSize:12,color:"#94a3b8",marginTop:6 }}>📞 0721 471 417 · Biashara Plaza, Naivasha</div>
         </div>
-        <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I%20just%20submitted%20my%20application%20on%20vagramcompany.co.ke`} target="_blank" rel="noopener noreferrer" className="fu" style={{ ...T.btnGreen,maxWidth:300,marginBottom:12,textDecoration:"none",animationDelay:".17s" }}>💬 Chat on WhatsApp</a>
+        <a href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I%20just%20submitted%20my%20application%20on%20vagramcompany.co.ke`} target="_blank" rel="noopener noreferrer" className="fu" style={{ ...T.btnGreen,maxWidth:300,marginBottom:12,textDecoration:"none",animationDelay:".17s" }}>
+          <WhatsAppIcon size={22} /> Chat on WhatsApp
+        </a>
         <button className="fu" style={{ ...T.btnOut,maxWidth:300,animationDelay:".19s" }} onClick={goHome}>← Back to Home</button>
       </div>
     </div>
