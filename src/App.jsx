@@ -107,9 +107,6 @@ async function submitToGoogle(payload) {
   return res.json();
 }
 
-/* ═══════════════ IMAGE COMPRESSION ═══════════════
-   Resizes to max 800px and compresses to JPEG 70%
-   Reduces each photo from ~5MB to ~80-150KB          */
 function loadPhoto(file, setter) {
   if (!file) return;
   const img = new Image();
@@ -125,13 +122,94 @@ function loadPhoto(file, setter) {
     URL.revokeObjectURL(url);
   };
   img.onerror = () => {
-    // fallback: read as-is if canvas fails
     const r = new FileReader();
     r.onload = e => setter(e.target.result);
     r.readAsDataURL(file);
     URL.revokeObjectURL(url);
   };
   img.src = url;
+}
+
+/* ═══════════════ CLOSURE BANNER ═══════════════ */
+function ClosureBanner() {
+  const [visible, setVisible] = useState(true);
+  if (!visible) return null;
+  return (
+    <div style={{
+      position:"fixed", top:0, left:"50%", transform:"translateX(-50%)",
+      width:"100%", maxWidth:480, zIndex:9999,
+      background:"linear-gradient(135deg,#450a0a,#7f1d1d,#991b1b)",
+      borderBottom:"3px solid #fca5a5",
+      boxShadow:"0 6px 32px rgba(153,27,27,0.6)",
+      padding:"18px 16px",
+      display:"flex", alignItems:"flex-start", gap:14,
+    }}>
+      <div style={{
+        width:44, height:44, borderRadius:12, flexShrink:0,
+        background:"rgba(252,165,165,0.15)", border:"1.5px solid rgba(252,165,165,0.35)",
+        display:"flex", alignItems:"center", justifyContent:"center",
+      }}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="11" width="18" height="11" rx="2.5" fill="#fca5a5" opacity="0.25"/>
+          <rect x="3" y="11" width="18" height="11" rx="2.5" stroke="#fca5a5" strokeWidth="1.8"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#fca5a5" strokeWidth="1.8" strokeLinecap="round"/>
+          <circle cx="12" cy="16" r="1.5" fill="#fca5a5"/>
+          <line x1="12" y1="17.5" x2="12" y2="19.5" stroke="#fca5a5" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      </div>
+      <div style={{ flex:1, minWidth:0 }}>
+        <div style={{
+          fontSize:14, fontWeight:900, color:"#fff",
+          fontFamily:"'Outfit',sans-serif", letterSpacing:".01em", marginBottom:5,
+          display:"flex", alignItems:"center", gap:8, flexWrap:"wrap",
+        }}>
+          Service Suspended — Awaiting Payment
+          <span style={{
+            fontSize:9, fontWeight:800, background:"rgba(252,165,165,0.2)",
+            border:"1px solid rgba(252,165,165,0.4)", color:"#fca5a5",
+            borderRadius:20, padding:"2px 8px", letterSpacing:".08em", textTransform:"uppercase",
+          }}>OVERDUE</span>
+        </div>
+        <div style={{
+          fontSize:12, color:"rgba(255,255,255,0.72)",
+          fontFamily:"'Outfit',sans-serif", lineHeight:1.7,
+        }}>
+          This website is suspended pending settlement of outstanding developer fees of{" "}
+          <span style={{ color:"#fca5a5", fontWeight:800 }}>KES 7,500</span>
+          {" "}(Invoice #MDA-2026-001). To restore full access contact{" "}
+          <a
+            href="https://wa.me/254705427449"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color:"#fff", fontWeight:800, textDecoration:"underline", textUnderlineOffset:2 }}
+          >
+            Muchyz Digital Agency · 0705 427 449
+          </a>
+        </div>
+        <div style={{ marginTop:10, display:"flex", alignItems:"center", gap:10 }}>
+          <div style={{ flex:1, height:4, background:"rgba(255,255,255,0.1)", borderRadius:10, overflow:"hidden" }}>
+            <div style={{ width:"21%", height:"100%", background:"linear-gradient(90deg,#fca5a5,#f87171)", borderRadius:10 }} />
+          </div>
+          <span style={{ fontSize:10, color:"rgba(255,255,255,0.45)", fontWeight:700, whiteSpace:"nowrap" }}>
+            KES 2,000 of 9,500 paid
+          </span>
+        </div>
+      </div>
+      <button
+        onClick={()=>setVisible(false)}
+        style={{
+          background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.15)",
+          borderRadius:8, width:30, height:30, flexShrink:0,
+          color:"rgba(255,255,255,0.5)", fontSize:16, cursor:"pointer",
+          display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1,
+        }}
+      >
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 1l10 10M11 1L1 11" stroke="rgba(255,255,255,0.6)" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      </button>
+    </div>
+  );
 }
 
 /* ═══════════════ WHATSAPP SVG ICON ═══════════════ */
@@ -192,7 +270,6 @@ function Navbar({ onRegister, onLoan, onGroupReg, onHome }) {
 
   return (
     <>
-      {/* Top Bar */}
       <div style={{ position:"fixed",top:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,zIndex:300,background:scrolled?"rgba(4,22,10,0.96)":"rgba(0,0,0,0.28)",backdropFilter:"blur(18px)",WebkitBackdropFilter:"blur(18px)",borderBottom:scrolled?"1px solid rgba(255,255,255,0.07)":"none",boxShadow:scrolled?"0 4px 28px rgba(0,0,0,0.4)":"none",transition:"all .28s" }}>
         <div style={{ display:"flex",alignItems:"center",height:56,padding:"0 14px",gap:10 }}>
           <button onClick={()=>setOpen(true)} style={{ width:38,height:38,borderRadius:10,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.18)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,padding:0,flexShrink:0 }}>
@@ -489,7 +566,6 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState("");
 
-  // Individual Reg
   const [rFirst,setRFirst]=useState(""); const [rLast,setRLast]=useState("");
   const [rDob,setRDob]=useState(""); const [rPhone,setRPhone]=useState("");
   const [rEmail,setREmail]=useState(""); const [rIdType,setRIdType]=useState("national_id");
@@ -500,7 +576,6 @@ export default function App() {
   const [rSelP,setRSelP]=useState(null); const [rFrtP,setRFrtP]=useState(null); const [rBckP,setRBckP]=useState(null);
   const [rAgreed,setRAgreed]=useState(false);
 
-  // Group Reg
   const [gName,setGName]=useState(""); const [gBizType,setGBizType]=useState("");
   const [gRegNo,setGRegNo]=useState(""); const [gPhone,setGPhone]=useState("");
   const [gEmail,setGEmail]=useState(""); const [gLocation,setGLocation]=useState("");
@@ -509,7 +584,6 @@ export default function App() {
   const [gSelP,setGSelP]=useState(null); const [gFrtP,setGFrtP]=useState(null); const [gBckP,setGBckP]=useState(null); const [gLetterP,setGLetterP]=useState(null);
   const [gAgreed,setGAgreed]=useState(false);
 
-  // Loan
   const [lFirst,setLFirst]=useState(""); const [lLast,setLLast]=useState("");
   const [lPhone,setLPhone]=useState(""); const [lIdNum,setLIdNum]=useState("");
   const [lEmpType,setLEmpType]=useState(""); const [lEmployer,setLEmployer]=useState(""); const [lIncome,setLIncome]=useState("");
@@ -563,9 +637,8 @@ export default function App() {
     </>
   );
 
-  /* SUCCESS */
   if (done) return (
-    <div style={T.app}><style>{CSS}</style><WAButton />
+    <div style={T.app}><style>{CSS}</style><ClosureBanner /><WAButton />
       <div style={{ display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:"100vh",padding:"40px 20px",textAlign:"center" }}>
         <div className="fu" style={{ fontSize:72,marginBottom:18 }}>✅</div>
         <h2 className="fu" style={{ fontSize:24,fontWeight:800,fontFamily:"'Playfair Display',serif",color:"#0f4c27",marginBottom:10,animationDelay:".07s" }}>
@@ -588,9 +661,8 @@ export default function App() {
     </div>
   );
 
-  /* HOME */
   if (screen==="home") return (
-    <div style={T.app}><style>{CSS}</style>
+    <div style={T.app}><style>{CSS}</style><ClosureBanner />
     <Navbar onRegister={goReg} onLoan={goLoan} onGroupReg={goGroup} onHome={goHome} />
     <Hero onRegister={goReg} onGroupReg={goGroup} onLoan={goLoan} />
     <WAButton />
@@ -635,9 +707,8 @@ export default function App() {
     </div>
   );
 
-  /* INDIVIDUAL REGISTRATION */
   if (screen==="register") return (
-    <div style={T.app}><style>{CSS}</style><WAButton />
+    <div style={T.app}><style>{CSS}</style><ClosureBanner /><WAButton />
     <FormHeader title="Member Registration" step={step} total={REG_STEPS.length} onBack={()=>step===0?goHome():setStep(s=>s-1)} />
     <StepBar steps={REG_STEPS} current={step} />
     <div style={T.main}>
@@ -678,9 +749,8 @@ export default function App() {
     </div></div>
   );
 
-  /* GROUP REGISTRATION */
   if (screen==="group") return (
-    <div style={T.app}><style>{CSS}</style><WAButton />
+    <div style={T.app}><style>{CSS}</style><ClosureBanner /><WAButton />
     <FormHeader title="Group / Institution Reg." step={step} total={GRP_STEPS.length} onBack={()=>step===0?goHome():setStep(s=>s-1)} color="#1d4ed8" />
     <StepBar steps={GRP_STEPS} current={step} />
     <div style={T.main}>
@@ -722,9 +792,8 @@ export default function App() {
     </div></div>
   );
 
-  /* LOAN APPLICATION */
   if (screen==="loan") return (
-    <div style={T.app}><style>{CSS}</style><WAButton />
+    <div style={T.app}><style>{CSS}</style><ClosureBanner /><WAButton />
     <FormHeader title="Loan Application" step={step} total={LOAN_STEPS.length} onBack={()=>step===0?goHome():setStep(s=>s-1)} />
     <StepBar steps={LOAN_STEPS} current={step} />
     <div style={T.main}>
